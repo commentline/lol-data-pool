@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import Dashboard from './layouts/Dashboard';
 
 const App = () => {
   return (
-    <div>App</div>
+    <div>
+      <Dashboard />
+    </div>
   )
 }
 
-export default App
+export default App;
