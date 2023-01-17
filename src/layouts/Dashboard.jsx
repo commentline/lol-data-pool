@@ -8,6 +8,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Container, Grid } from '@mui/material';
 import ChampionDetails from '../pages/ChampionDetails';
 import Redirect from '../pages/Redirect';
+import FavoriteChampions from '../pages/FavoriteChampions';
 
 const Dashboard = () => {
 
@@ -25,6 +26,7 @@ const Dashboard = () => {
               <Route exact path="/champions/:championPathDetails" element={<ChampionDetails />} />
               <Route exact path="/items" element={<Items />} />
               <Route exact path="/items/:itemPathDetails" element={<ItemDetails />} />
+              <Route exact path="/favoritechampions" element={<FavoriteChampions />} />
               <Route path='*' element={<Redirect />} />
             </Routes>
           </Grid>
