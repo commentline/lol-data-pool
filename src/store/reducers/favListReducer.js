@@ -18,11 +18,11 @@ const favListReducer = (state=initialState, {type, payload}) => {
       }
       else {
         localStorage.setItem(payload.id, JSON.stringify(payload));  
-      return {
-        ...state, 
-        favListItems: [...state.favListItems, payload]
+        return {
+          ...state, 
+          favListItems: [...state.favListItems, payload]
+        }
       }
-    }
     default:
       return state;
   }
