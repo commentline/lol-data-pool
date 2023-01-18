@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppBar, Button, Toolbar, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setChampionList } from '../store/actions/championListActions';
+import { setItemList } from '../store/actions/itemListActions';
 
 const Navi = () => {
 
+  const { championListItems } = useSelector(state => state.championListReducer);
+  const { itemListItems } = useSelector(state => state.itemListReducer);
   const { favListItems } = useSelector(state => state.favListReducer);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getChampionList = async () => {
+      dispatch(setChampionList());
+    };
+    const getItemList = async () => {
+      dispatch(setItemList());
+    };
+    getChampionList();
+    getItemList();
+  }, [dispatch]);
 
   return (
     <div>
@@ -18,12 +35,12 @@ const Navi = () => {
           </Button>
           <Button component={RouterLink} to="/champions">
             <Typography variant="h7" >
-              CHAMPIONS
+              CHAMPIONS {`(${championListItems.length})`}
             </Typography>
           </Button>
           <Button component={RouterLink} to="/items">
             <Typography variant="h7" >
-              ITEMS
+              ITEMS {`(${itemListItems.length})`}
             </Typography>
           </Button>
           <Button component={RouterLink} to="/favoritechampions">
