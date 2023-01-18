@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchChampionDetail } from '../services/championsService';
 import { Box, Grid } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { setChampionDetail } from '../store/actions/championDetailActions';
 
 const ChampionDetails = () => {
 
-  const [championDetails, setChampionDetails] = useState([]);
-
   const { championPathDetails } = useParams();
   const championName = championPathDetails[0].toUpperCase() + championPathDetails.slice(1);
-
+  
+  const { championDetailItems } = useSelector(state => state.championDetailReducer);
+  
+  const dispatch = useDispatch();
+  
   useEffect(() => {
-    const fetchChampionDetailData = async () => {
-      const data = await fetchChampionDetail(championName);
-      setChampionDetails(Object.values(data));
-    };
-    fetchChampionDetailData();
-  }, [championName]);
-  console.log(championDetails);
+    const getList = async () => {
+      dispatch(setChampionDetail(championName));
+    }
+    getList();
+  }, [dispatch, championName]);
 
   return (
     <div>
@@ -33,7 +34,7 @@ const ChampionDetails = () => {
             src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championName}_0.jpg`}
           />
         </Grid>
-        {championDetails.map(champion =>
+        {championDetailItems.map(champion =>
         (<Grid item xs={8.5} key={champion.id}>
           <Box display="flex" flexDirection="column" bgcolor="gray">
             <Box display="flex" flexDirection="column">

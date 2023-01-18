@@ -1,52 +1,50 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
-import fetchItems from '../services/itemsService';
+import { useDispatch, useSelector } from 'react-redux';
+import { setItemList } from '../store/actions/itemListActions';
 
 const ItemDetails = () => {
 
   const { itemPathDetails } = useParams();
+  const { itemListItems } = useSelector(state => state.itemListReducer);
 
-  const [itemsList, setItemsList] = useState([]);
+  const [currentItem] = itemListItems.filter(item => item.name.replace(/\s/g, "").toLowerCase() === itemPathDetails);
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchItemsData = async () => {
-      const items = await fetchItems();
-      setItemsList(Object.values(items));
-    };
-    fetchItemsData();
-  }, []);
+    const getItemList = async () => {
+      dispatch(setItemList());
+    }
+    getItemList();
+  }, [dispatch]);
 
-  let [currentItem] = itemsList.filter(item => item.name.replace(/\s/g, "").toLowerCase() === itemPathDetails);
-  console.log(currentItem);
   return (
     <div>
-      {
-        currentItem ?
-          (
-            <Grid container >
-              <Grid item sm={3}>
-                <Box
-                  component="img"
-                  sx={{
-                    width: 200,
-                    height: 200
-                  }}
-                  alt="Item Image"
-                  src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${currentItem.image.full}`}
-                />
-              </Grid>
-              <Grid item sm={9}>
-                <Box p={2} width={'100%'} color="secondary.contrastText">
-                  {currentItem.name.toUpperCase()}
-                </Box>
-                <Box p={2} width={'100%'} color="secondary.contrastText">
-                  {currentItem.plaintext}
-                </Box>
-              </Grid>
+      {currentItem ?
+        (
+          <Grid container >
+            <Grid item sm={3}>
+              <Box
+                component="img"
+                sx={{
+                  width: 200,
+                  height: 200
+                }}
+                alt="Item Image"
+                src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${currentItem.image.full}`}
+              />
             </Grid>
-          ) : null
-      }
+            <Grid item sm={9}>
+              <Box p={2} width={'100%'} color="secondary.contrastText">
+                {currentItem.name.toUpperCase()}
+              </Box>
+              <Box p={2} width={'100%'} color="secondary.contrastText">
+                {currentItem.plaintext}
+              </Box>
+            </Grid>
+          </Grid>
+        ) : null}
     </div>
   )
 }
