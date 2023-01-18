@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import fetchItems from '../services/itemsService';
+import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { setItemList } from '../store/actions/itemListActions';
 
 const Items = () => {
 
-  const [itemsList, setItemsList] = useState([]);
+  const { itemListItems } = useSelector(state => state.itemListReducer);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchItemsData = async () => {
-      const items = await fetchItems();
-      setItemsList(Object.values(items));
-      console.log(items);
+    const getItemList = async () => {
+      dispatch(setItemList());
     };
-    fetchItemsData();
-  }, []);
+    getItemList();
+  }, [dispatch]);
 
   return (
     <div>
       <Grid container columns={24} rowSpacing={2} columnSpacing={2} >
-        {itemsList.map((item, index) => (
+        {itemListItems.map((item, index) => (
           <Grid item xs={4} md={3} lg={2} key={index} >
             <Card style={{ height: "210px" }}>
               <CardMedia

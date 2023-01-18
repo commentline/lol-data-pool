@@ -1,19 +1,18 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Grid, Typography } from '@mui/material';
 import { updateToFavoriteList } from '../store/actions/favListActions';
+import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Grid, Typography } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import StarIcon from '@mui/icons-material/Star';
 
 const FavoriteChampions = () => {
 
   const { favListItems } = useSelector(state => state.favListReducer);
-  console.log(favListItems);
 
   const dispatch = useDispatch();
-  const handleUpdateToFavoriteList = (champion) => {
-    dispatch(updateToFavoriteList(champion))
+  const handleUpdateToFavoriteList = champion => {
+    dispatch(updateToFavoriteList(champion));
   }
 
   return (
